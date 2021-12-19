@@ -6,20 +6,20 @@ clear
 echo -e "\nსკრიპტი უნდა გაეშვას სუდოთი"
 sudo echo "" || exit
 
-#sudo yum install nfs-* &> /dev/null
-#systemctl enable rpcbind &> /dev/null
-#systemctl enable nfs-server &> /dev/null
-#systemctl enable nfs-lock &> /dev/null
-#systemctl enable nfs-idmap &> /dev/null
-#systemctl start rpcbind &> /dev/null
-#systemctl start nfs-server &> /dev/null
-#systemctl start nfs-lock &> /dev/null
-#systemctl start nfs-idmap &> /dev/null
+sudo yum install nfs-* &> /dev/null
+systemctl enable rpcbind &> /dev/null
+systemctl enable nfs-server &> /dev/null
+systemctl enable nfs-lock &> /dev/null
+systemctl enable nfs-idmap &> /dev/null
+systemctl start rpcbind &> /dev/null
+systemctl start nfs-server &> /dev/null
+systemctl start nfs-lock &> /dev/null
+systemctl start nfs-idmap &> /dev/null
 
-#firewall-cmd --permanent --zone=public --add-service=nfs &> /dev/null
-#firewall-cmd --permanent --zone=public --add-service=mountd &> /dev/null
-#firewall-cmd --permanent --zone=public --add-service=rpc-bind &> /dev/null
-#firewall-cmd --reload &> /dev/null
+firewall-cmd --permanent --zone=public --add-service=nfs &> /dev/null
+firewall-cmd --permanent --zone=public --add-service=mountd &> /dev/null
+firewall-cmd --permanent --zone=public --add-service=rpc-bind &> /dev/null
+firewall-cmd --reload &> /dev/null
 
 
 ##################################################################################################
