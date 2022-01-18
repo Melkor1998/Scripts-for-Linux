@@ -36,7 +36,7 @@ funct_aftermenu2(){
 }
 
 funct_forParrot(){
-	if [ $(lsb_release -a 2> /dev/null | sed -n '1p' | awk 'NF{print $NF}') = "Parrot" ]; 
+	if [ $(lsb_release -i 2> /dev/null | awk 'NF{print $NF}') = "Parrot" ]; 
 	then
 		clear
 		echo -e "Full Upgrade\n"
