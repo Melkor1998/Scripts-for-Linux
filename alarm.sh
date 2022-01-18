@@ -37,6 +37,8 @@ fi
 
 sleeptime=$(( $alarm2 - $time ))
 timeleft=$(date -d@$sleeptime -u +%H:%M:%S)
+realtime=$(date "+%H:%M:%S")
 echo -e "Alarm is set to \e[96m$alarm\e[0m"
+echo -e "Time now is \e[96m$realtime\e[0m"
 echo -e "Time before alarm rings \e[96m$timeleft\e[0m"
 sleep $sleeptime && echo -e "\nPRESS \e[91;1mq\e[0m TO STOP\n" && mpv --loop ~/'Cool Ringtone-SmSeOMXIQ5U.mp3'
