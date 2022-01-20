@@ -792,9 +792,6 @@ $x
 │\e[1mWeb:\e[0m$(ls /var/www | sed '/cgi-bin\|html/d' | sed 's/^/\t\t │/' | sed 's/^/│/' | sed '1s/│//' | sed '1s/\t//' | sed '1s/^/\t/')
 └────────────────┴──────────────────────────────────────
 "
-#$(grep 'zone "\|type ' /etc/named.conf | sed '1,2d' | awk '{print $2}' | sed 's/slave;/\\e[91;1mslave\\e[0m\\n/g' | sed 's/master;/\\e[96;1mmaster\\e\\n[0m/g' | sed 's/^/\t\t │/' | sed 's/^/│/' | sed '1s/│//' | sed '1s/\t//')
-
-#│\e[1mZones:\e[0m$(grep 'zone "' /etc/named.conf | sed '1d' | awk '{print $2}' | sed 's/^/│\t\t │/' | sed '1s/│          │/ \t │/')
 
 read -s -n 1
 
