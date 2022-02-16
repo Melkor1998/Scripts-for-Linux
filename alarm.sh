@@ -11,7 +11,7 @@ then
 	cd ~
 	clear
 	#We need ffmpeg to download file as mp3
-	which ffmpeg &> /dev/null | apt install ffmpeg; clear
+	apt install ffmpeg -y; clear
 	echo -e "\e[91mPlease wait... We need ringtone for alarm to work\e[0m"
 	youtube-dl --extract-audio --audio-format mp3 https://youtu.be/SmSeOMXIQ5U
 fi
