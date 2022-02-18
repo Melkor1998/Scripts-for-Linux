@@ -6,7 +6,7 @@ which sensors || sudo apt install sensors -y
 which espeak || sudo apt install espeak -y
 funct_login(){
 clear
-printf "username: "
+printf "Username: "
 read username
 printf "Password: "
 read -s password
