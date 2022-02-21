@@ -1,6 +1,6 @@
 #!/bin/bash
 
-which ffmpeg &> /dev/null || sudo apt install ffmpeg -y
+ffmpeg -version &> /dev/null || sudo apt install ffmpeg -y
 which terminator &> /dev/null || sudo apt install terminator -y
 which mpv &> /dev/null || sudo apt install mpv -y
 which arecord &> /dev/null || sudo apt install alsa-utils -y
