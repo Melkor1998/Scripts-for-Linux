@@ -38,6 +38,7 @@ then
 	funct_send
 fi
 }
+
 funct_send
 echo '#Gmail account
 defaults
