@@ -621,7 +621,6 @@ funct_web2(){
 	fi
 }
 funct_web2
-
 sitename=$(echo $website | cut -d"." -f 1)
 
 #Install the Apache Web Server
