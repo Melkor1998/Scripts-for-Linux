@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Script is for debian/ubuntu but can be easily modified for other distros, it's the matter of ringtone
+#Script is for debian/ubuntu but can be easily modified for other distros, it's the matter of downloading
 #We will use youtube-dl to download ringtone and MPV to play it
 
 #Download ringtone
