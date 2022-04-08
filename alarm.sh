@@ -3,7 +3,7 @@
 #Script is for debian/ubuntu but can be easily modified for other distros, it's the matter of ringtone
 #We will use youtube-dl to download ringtone and MPV to play it
 
-#RINGTONE
+#Download ringtone
 which youtube-dl &> /dev/null || sudo apt install youtube-dl; clear
 if [[ $(ls ~/'Cool Ringtone-SmSeOMXIQ5U.mp3' | rev | cut -d'/' -f1 | rev) != 'Cool Ringtone-SmSeOMXIQ5U.mp3' ]];
 then
@@ -16,7 +16,7 @@ then
 	youtube-dl --extract-audio --audio-format mp3 https://youtu.be/SmSeOMXIQ5U
 fi
 
-#PLAYER
+#Media player
 which mpv &> /dev/null || sudo apt install mpv
 clear
 
@@ -49,4 +49,5 @@ do
 	sleep 1
 done
 
+#Play ringtone
 clear && echo -e "\nPRESS \e[91;1mq\e[0m TO STOP\n" && mpv --loop ~/'Cool Ringtone-SmSeOMXIQ5U.mp3' && clear
