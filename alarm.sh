@@ -39,7 +39,6 @@ funct_set(){
 funct_after(){
 	time=$(date +%s)
 	sleeptime=$(echo $sleeptime2 | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-#    c=$(date -d "$(date +%H:%M:%S)" +%s)
 	alarm2=$(( $time + $sleeptime + 14400 ))
 	alarm=$(date -d@$alarm2 -u +%H:%M:%S)
 }
