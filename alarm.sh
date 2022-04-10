@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#Script is for debian/ubuntu but can be easily modified for other distros, it's the matter of downloading
+#Script is for debian/ubuntu but can be easily modified for other distros, it's the matter of ringtone
 #We will use youtube-dl to download ringtone and MPV to play it
 
-#Download ringtone
+#RINGTONE
 which youtube-dl &> /dev/null || sudo apt install youtube-dl; clear
 if [[ $(ls ~/'Cool Ringtone-SmSeOMXIQ5U.mp3' | rev | cut -d'/' -f1 | rev) != 'Cool Ringtone-SmSeOMXIQ5U.mp3' ]];
 then
@@ -16,27 +16,63 @@ then
 	youtube-dl --extract-audio --audio-format mp3 https://youtu.be/SmSeOMXIQ5U
 fi
 
-#Media player
+#PLAYER
 which mpv &> /dev/null || sudo apt install mpv
-clear
 
 #Alarm
-printf "Set alarm to: "
-read alarm
-clear
-time=$(date +%s)
-alarm2=$(date -d "$alarm" +%s)
-sleeptime=$(( $alarm2 - $time ))
-a=${sleeptime:0:1}
+funct_set(){
+	time=$(date +%s)
+	alarm2=$(date -d "$alarm" +%s)
+	sleeptime=$(( $alarm2 - $time ))
+	a=${sleeptime:0:1}
 
-if [[ $a == '-' ]];
-then
-	alarm2=$(( $alarm2 + 86400 ))
-fi
+	if [[ $a == '-' ]];
+	then
+		alarm2=$(( $alarm2 + 86400 ))
+	fi
 
-sleeptime=$(( $alarm2 - $time ))
-timeleft=$(date -d@$sleeptime -u +%H:%M:%S)
-realtime=$(date "+%H:%M:%S")
+	sleeptime=$(( $alarm2 - $time ))
+	timeleft=$(date -d@$sleeptime -u +%H:%M:%S)
+	realtime=$(date "+%H:%M:%S")
+}
+
+funct_after(){
+	time=$(date +%s)
+	sleeptime=$(echo $sleeptime2 | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+#    c=$(date -d "$(date +%H:%M:%S)" +%s)
+	alarm2=$(( $time + $sleeptime + 14400 ))
+	alarm=$(date -d@$alarm2 -u +%H:%M:%S)
+}
+
+funct_choose(){
+    clear
+    echo -e '\e[1m[1]\e[0m Set alarm at \e[92mH:M:S\e[0m
+\e[1m[2]\e[0m Set alarm for after \e[92mH:M:S\e[0m
+
+\e[91;1m[0]\e[0m\e[91m Exit\e[0m'
+    read -s -n 1 choose
+    if [[ $choose == '1' ]];
+    then
+    	clear
+    	printf "Set alarm at: "
+    	read alarm
+    	clear
+    	funct_set
+    elif [[ $choose == '2' ]];
+    then
+    	clear
+    	printf "Ring after: "
+    	read sleeptime2
+    	funct_after
+    elif [[ $choose == '0' ]];
+    then
+    	clear; exit
+    else
+    	funct_choose
+    fi
+}
+
+funct_choose
 
 while [[ $sleeptime -gt '0' ]]
 do
@@ -49,5 +85,4 @@ do
 	sleep 1
 done
 
-#Play ringtone
 clear && echo -e "\nPRESS \e[91;1mq\e[0m TO STOP\n" && mpv --loop ~/'Cool Ringtone-SmSeOMXIQ5U.mp3' && clear
