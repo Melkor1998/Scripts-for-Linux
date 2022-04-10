@@ -34,6 +34,8 @@ funct_set(){
 	sleeptime=$(( $alarm2 - $time ))
 	timeleft=$(date -d@$sleeptime -u +%H:%M:%S)
 	realtime=$(date "+%H:%M:%S")
+    alarm=$(echo $alarm | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    alarm=$(date -d@$alarm -u +%H:%M:%S)
 }
 
 funct_after(){
