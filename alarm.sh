@@ -1,20 +1,7 @@
 #!/bin/bash
 
-#Script is for debian/ubuntu but can be easily modified for other distros, it's the matter of ringtone
+#Script is for debian/ubuntu but can be used for other distros if you change the way of downloading player on line 7
 #We will use youtube-dl to download ringtone and MPV to play it
-
-#RINGTONE
-which youtube-dl &> /dev/null || sudo apt install youtube-dl; clear
-if [[ $(ls ~/'Cool Ringtone-SmSeOMXIQ5U.mp3' | rev | cut -d'/' -f1 | rev) != 'Cool Ringtone-SmSeOMXIQ5U.mp3' ]];
-then
-	which youtube-dl &> /dev/null || sudo apt install youtube-dl
-	cd ~
-	clear
-	#We need ffmpeg to download file as mp3
-	apt install ffmpeg; clear
-	echo -e "\e[91mPlease wait... We need ringtone for alarm to work\e[0m"
-	youtube-dl --extract-audio --audio-format mp3 https://youtu.be/SmSeOMXIQ5U
-fi
 
 #PLAYER
 which mpv &> /dev/null || sudo apt install mpv
@@ -34,8 +21,8 @@ funct_set(){
 	sleeptime=$(( $alarm2 - $time ))
 	timeleft=$(date -d@$sleeptime -u +%H:%M:%S)
 	realtime=$(date "+%H:%M:%S")
-    alarm=$(echo $alarm | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    alarm=$(date -d@$alarm -u +%H:%M:%S)
+    	alarm=$(echo $alarm | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    	alarm=$(date -d@$alarm -u +%H:%M:%S)
 }
 
 funct_after(){
@@ -86,4 +73,4 @@ do
 	sleep 1
 done
 
-clear && echo -e "\nPRESS \e[91;1mq\e[0m TO STOP\n" && mpv --loop ~/'Cool Ringtone-SmSeOMXIQ5U.mp3' && clear
+clear && echo -e "\nPRESS \e[91;1mq\e[0m TO STOP\n" && mpv --loop --no-video https://youtu.be/SmSeOMXIQ5U && clear
