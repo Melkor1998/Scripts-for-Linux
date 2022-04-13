@@ -2,8 +2,8 @@
 
 # AUTHOR: Shota Zangurashvili
 
-# Script is dedicated for CentOS 7
-# სკრიპტი განკუთვნილია CentOS 7 სისტემისთვის
+# Script is dedicated for CentOS 7, also works for AlmaLinux
+# სკრიპტი განკუთვნილია CentOS 7 სისტემისთვის, ასევე მუშაობს AlmaLinux-ზეც
 
 # მინიმალურ ვერსიაში ifconfig ბრძანება არაა ჩაშენებული, ქვემოთა ბრძანებების ხაზი უზრუნველყოფს რო ბრძანება ifconfig ხელმისაწვდომი იყოს
 ifconfig &> /dev/null || yum install net-tools -y &> /dev/null
@@ -736,14 +736,57 @@ fi
 funct_browse
 }
 
+####################### PING ########################################## Added in 13.apr.2022
+
+funct_ping(){
+addresses=$(echo -e "$sitens1 $(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print $2}' | sed -s "/$(grep 'reverse' /etc/named.conf | awk '{print $2}' | cut -d'.' -f2)/d")" | wc -w)
+addresses2=$(echo -e "$sitens1 $(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print $2}' | sed -s "/$(grep 'reverse' /etc/named.conf | awk '{print $2}' | cut -d'.' -f2)/d")")
+echo 'sitens1=('"$(cat /var/named/*.db | grep ns1 | sed -n "2p" | awk '{print $2}')"')' > cases.sh
+echo 'list=("'"$(echo -e "$sitens1 $(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print $2}' | sed -s "/$(grep 'reverse' /etc/named.conf | awk '{print $2}' | cut -d'.' -f2)/d")")"'")' >> cases.sh
+echo 'funct_ping(){
+echo choose:' >> cases.sh
+echo 'echo -e $list | sed "s/ /\n/g" | cat -n
+echo -e "Press \e[91;1mq\e[0m to exit"' >> cases.sh
+
+echo 'read -s -n 1 choose
+case $choose in' >> cases.sh
+
+count=0
+
+while [ $count -lt $addresses ]
+do
+	((count++))
+	echo '"'"$count"'") clear && ping -c 2 '"$(echo $addresses2 | cut -d" " -f$count)"' ;;' >> cases.sh
+done
+
+echo '"q") ./Dns_Tool_Web.sh ;;
+esac
+echo -e "\nPress \e[92;1mEnter\e[0m to return
+or \e[91;1mq\e[0m to exit"
+read -s -n 1
+if [ ${REPLY} = $(Enter) ];
+then
+	clear && funct_ping
+elif [ ${REPLY} = q ];
+then
+	./Dns_Tool_Web.sh
+fi
+}
+funct_ping' >> cases.sh
+chmod +x cases.sh
+./cases.sh
+}
+
+#################################################################
+
 clear
 
 if [[ $bindd == 0 ]]
 then
-	x='\e[96m8. Install bind\e[0m'
+	x='\e[92m9. Install bind\e[0m'
 elif [[ $bindd == 1 ]];
 then
-	x='\e[91;1m8. Remove bind\e[0m'
+	x='\e[91;1m9. Remove bind\e[0m'
 fi
 
 ### მთავარი სიის ფუნქცია სადაც გვექნება არჩევანის უფლება და სია ჩვენი მონაცემების
@@ -760,6 +803,7 @@ $y
 5. master site
 6. slave site
 7. web
+8. ping addresses
 
 $x
 
@@ -822,14 +866,18 @@ read -s -n 1
 	then
 		clear
 		funct_web
-        elif [[ $REPLY == 8 ]];
+	elif [[ $REPLY == 8 ]];
+	then
+		clear
+		funct_ping
+        elif [[ $REPLY == 9 ]];
         then
                 clear
                 funct_x
 	elif [[ $REPLY == 0 ]];
 	then
 		clear
-		exit
+		pkill -9 Dns_Tool_Web.sh  && clear
 	else
 		clear
 		funct_menu
