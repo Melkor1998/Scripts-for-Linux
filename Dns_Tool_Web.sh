@@ -360,7 +360,7 @@ read -s -n 1
 		then
 			namesite=$(echo $site | cut -d"." -f1)
 			# კონფიგურაში ზონის ჩაწერა
-			sed -i "$b a \\\nzone \"$site\" IN {\n\ttype master;\n\tfile \"$namesite\.db\";\n\tallow-update {none;};\n};" /etc/named.conf
+			sed -i "$b a \\\nzone \""$site"\" IN {\n\ttype master;\n\tfile \"$namesite\.db\";\n\tallow-update {none;};\n};" /etc/named.conf
 			# db ფაილის შექმნა
 			cp /var/named/named.empty /var/named/$namesite.db
 			sed -i "4,7s/;/\t;/" /var/named/$namesite.db
