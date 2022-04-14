@@ -4,7 +4,17 @@
 #We will use youtube-dl to download ringtone and MPV to play it
 
 #PLAYER
-which mpv &> /dev/null || sudo apt install mpv
+funct_install_fordeb(){
+sudo apt install mpv -y
+}
+funct_install_forcentos(){
+sudo yum install wget -y
+wget http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+sudo rpm -Uvh nux-dextop-release-0-5.el7.nux.noarch.rpm -y
+sudo yum install mpv -y
+}
+
+which mpv || funct_install_fordeb || funct_install_forcentos
 
 #Alarm
 funct_set(){
