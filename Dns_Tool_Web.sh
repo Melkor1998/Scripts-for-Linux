@@ -415,7 +415,7 @@ funct_x(){
 		yum install bind bind-utils -y
 		bindd=1
 		y=''
-		x='\e[91;1m8. Remove bind\e[0m'
+		x='\e[91;1m9. Remove bind\e[0m'
 		clear
 	        echo -en "\e[96;1mbind and bind-utils has been installed\e[0m"
         	funct_menu 2> /dev/null
@@ -424,7 +424,7 @@ funct_x(){
 		cd
 		rm -rvf /etc/named.conf /var/named/* && yum remove bind* -y
 		bindd=0
-		x='\e[96m8. Install bind\e[0m'
+		x='\e[96m9. Install bind\e[0m'
 		clear
 		echo -en "\e[91;1;5mbind has been deleted\e[0m"
         	funct_menu 2> /dev/null
