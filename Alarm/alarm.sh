@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#Script is for debian/ubuntu but can be used for other distros if you change the way of downloading player on line 7
-#We will use youtube-dl to download ringtone and MPV to play it
+#Script is tested on LinuxMint and CentOS 7, it can work on other distros as well if you download MPV
 
 #PLAYER
 funct_install_fordeb(){
