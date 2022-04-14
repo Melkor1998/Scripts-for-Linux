@@ -12,9 +12,10 @@ sudo yum install wget -y
 wget http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 sudo rpm -Uvh nux-dextop-release-0-5.el7.nux.noarch.rpm
 sudo yum install mpv -y
+rm -rf nux-dextop-release-0-5.el7.nux.noarch.rpm
 }
 
-which mpv || funct_install_fordeb || funct_install_forcentos
+which mpv || funct_install_fordeb || funct_install_forcentos || exit
 
 #Alarm
 funct_set(){
