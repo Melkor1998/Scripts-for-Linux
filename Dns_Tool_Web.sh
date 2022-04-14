@@ -877,7 +877,7 @@ read -s -n 1
 	elif [[ $REPLY == 0 ]];
 	then
 		clear
-		pkill -9 Dns_Tool_Web.sh  && clear
+		rm -rf cases.sh && pkill -9 Dns_Tool_Web.sh  && clear
 	else
 		clear
 		funct_menu
