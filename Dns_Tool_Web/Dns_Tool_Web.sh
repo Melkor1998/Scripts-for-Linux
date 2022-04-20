@@ -739,40 +739,52 @@ funct_browse
 ####################### PING ########################################## Added in 13.apr.2022
 
 funct_ping(){
-addresses=$(echo -e "$sitens1 $(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print $2}' | sed -s "/$(grep 'reverse' /etc/named.conf | awk '{print $2}' | cut -d'.' -f2)/d")" | wc -w)
-addresses2=$(echo -e "$sitens1 $(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print $2}' | sed -s "/$(grep 'reverse' /etc/named.conf | awk '{print $2}' | cut -d'.' -f2)/d")")
-echo 'sitens1=('"$(cat /var/named/*.db | grep ns1 | sed -n "2p" | awk '{print $2}')"')' > cases.sh
-echo 'list=("'"$(echo -e "$sitens1 $(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print $2}' | sed -s "/$(grep 'reverse' /etc/named.conf | awk '{print $2}' | cut -d'.' -f2)/d")")"'")' >> cases.sh
-echo 'funct_ping(){
-echo choose:' >> cases.sh
-echo 'echo -e $list | sed "s/ /\n/g" | cat -n
-echo -e "Press \e[91;1mq\e[0m to exit"' >> cases.sh
+list=$(echo -e "$sitens1 $(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print $2}' | sed -s "/$(grep 'reverse' /etc/named.conf | awk '{print $2}' | cut -d'.' -f2)/d")")
+addresses=$(echo $list | wc -w)
 
-echo 'read -s -n 1 choose
-case $choose in' >> cases.sh
+cat >> cases.sh << finish
+sitens1=\$(cat /var/named/*.db | grep ns1 | sed -n "2p" | awk '{print \$2}')
+list=\$(echo -e "\$sitens1 \$(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print \$2}' | sed -s "/\$(grep 'reverse' /etc/named.conf | awk '{print \$2}' | cut -d'.' -f2)/d")")
+
+funct_ping(){
+echo choose:
+echo -e \$list | sed "s/ /\n/g" | cat -n
+echo -e "Press \e[91;1mq\e[0m to exit"
+
+read -s -n 1 choose
+
+case \$choose in
+finish
 
 count=0
 
 while [ $count -lt $addresses ]
 do
 	((count++))
-	echo '"'"$count"'") clear && ping -c 2 '"$(echo $addresses2 | cut -d" " -f$count)"' ;;' >> cases.sh
+	echo -e '\t"'"$count"'") clear && ping -c 2 '"$(echo $list | cut -d" " -f$count)"' ;;' >> cases.sh
 done
-
-echo '"q") ./Dns_Tool_Web.sh ;;
+	
+cat >> cases.sh << finish
+	"q") ./Dns_Tool_Web.sh ;;
 esac
+
 echo -e "\nPress \e[92;1mEnter\e[0m to return
 or \e[91;1mq\e[0m to exit"
+
 read -s -n 1
-if [ ${REPLY} = $(Enter) ];
+
+if [ \${REPLY} = \$(Enter) ];
 then
 	clear && funct_ping
-elif [ ${REPLY} = q ];
+elif [ \${REPLY} = q ];
 then
 	./Dns_Tool_Web.sh
 fi
 }
-funct_ping' >> cases.sh
+
+funct_ping
+finish
+
 chmod +x cases.sh
 ./cases.sh
 }
