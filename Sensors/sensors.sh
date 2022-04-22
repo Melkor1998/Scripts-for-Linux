@@ -24,7 +24,7 @@ funct_login
 funct_sensors(){
 	clear
 	sensors
-	printf "Date: $(date +"%d.%h.%y %A")\n"
+	printf "Date: $(date +"%d.%h.%Y %A")\n"
 	printf "Time: \e[1m$(date +"%I:%M")\e[0m\n"
 	if [[ $b -gt 0 ]];
 	then
