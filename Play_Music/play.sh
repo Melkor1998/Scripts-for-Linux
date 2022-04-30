@@ -6,6 +6,6 @@
 music=$(echo $*)
 ytfzf -L $music > link
 clear
-echo -e "\e[1mNow playing:\e[0m $(youtube-dl --skip-download --get-title --no-warnings $(cat link) 2> /dev/null)"
+echo -e "\e[1mPlaying:\e[0m $(youtube-dl --skip-download --get-title --no-warnings $(cat link) 2> /dev/null)"
 mpv --no-video $(cat link) || clear
 rm -rf link
