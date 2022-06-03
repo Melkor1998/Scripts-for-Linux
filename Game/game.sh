@@ -176,14 +176,14 @@ printf "\e[1m
           Λ
         < V >    Enter
 
-        - \e[0mხელახლა დაწყება \e[1m
-        0 \e[0mგამოსვლა
+        - \e[0mRestart \e[1m
+        0 \e[0mExit
 "
 }
 
 fn_menu2(){
-printf "\n\n\n\n\e[1m        - \e[0mხელახლა დაწყება
-\e[1m        0 \e[0mგამოსვლა\n"
+printf "\n\n\n\n\e[1m        - \e[0mRestart
+\e[1m        0 \e[0mExit\n"
 }
 
 fn_up(){
@@ -544,11 +544,11 @@ fn_enter(){
 }
 
 player1won(){
-	printf "\e[96;1m(X) Player 1 გაიმარჯვა\e[0m\n"
+	printf "\e[96;1m(X) Player 1 won\e[0m\n"
 }
 
 player2won(){
-	printf "\e[91;1m(O) Player 2 გაიმარჯვა\e[0m\n"
+	printf "\e[91;1m(O) Player 2 won\e[0m\n"
 }
 
 fn_check(){
