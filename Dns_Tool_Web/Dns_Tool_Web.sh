@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# AUTHOR: Shota Zangurashvili
-
 # Script is dedicated for CentOS 7, also works for AlmaLinux
 # სკრიპტი განკუთვნილია CentOS 7 სისტემისთვის, ასევე მუშაობს AlmaLinux-ზეც
 
