@@ -823,7 +823,7 @@ $y
 ├────────────────┼──────────────────────────────────────
 │\e[1mDNS:\e[0m \t$(grep "nameserver" /etc/resolv.conf | awk '{print $2}' | sed 's/^/\t\t │/' | sed 's/^/│/' | sed '1s/│//' | sed '1s/\t//')
 ├────────────────┼──────────────────────────────────────
-│\e[1mSelinux:\e[0m\t │$(cat /etc/selinux/config | sed -n '7p' | cut -d"=" -f 2)
+│\e[1mSelinux:\e[0m\t │$(cat /etc/selinux/config | sed -n '/^SELINUX=/p' | cut -d"=" -f 2)
 ├────────────────┼──────────────────────────────────────
 │\e[1mlisten-on:\e[0m\t │$listenon
 ├────────────────┼──────────────────────────────────────
