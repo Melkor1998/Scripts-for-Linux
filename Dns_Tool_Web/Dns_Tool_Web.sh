@@ -703,7 +703,7 @@ systemctl restart httpd
 
 funct_browse(){
 clear
-echo -e "1. lynx-ით ნახვა\n2, firefox-ით ნახვა\n3. მთავარ სიაში დაბრუნება"
+echo -e "1. lynx-ით ნახვა\n2. firefox-ით ნახვა\n3. მთავარ სიაში დაბრუნება"
 read -s -n 1
 
 if [[ $REPLY == 1 ]];
