@@ -855,7 +855,8 @@ $y
 2. allow-query		7. web
 3. allow-transfer	8. ping addresses
 4. ns1			$x
-5. master site		\e[91m0. exit\e[0m
+5. master site		-. website information
+\e[91m0. exit\e[0m
 
 ┌───────────────────────────────────────────────────────
 │\e[1mInfo:\e[0m
