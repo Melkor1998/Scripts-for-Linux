@@ -920,8 +920,12 @@ read -s -n 1
 		funct_ping
         elif [[ $REPLY == 9 ]];
         then
-                clear
-                funct_x
+		clear
+		funct_x
+	elif [[ $REPLY == - ]];
+	then
+		clear
+		funct_webinfo
 	elif [[ $REPLY == 0 ]];
 	then
 		clear
