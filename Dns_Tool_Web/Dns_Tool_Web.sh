@@ -774,6 +774,7 @@ then
                 funct_ping
         else
                 echo -e "\n\e[91;1mWrong input!\e[0m\n"
+		sleep 1 && clear && funct_ping
         fi
 else
         echo -e "\e[91;1mWrong input!\e[0m"
@@ -824,6 +825,7 @@ then
                 funct_webinfo
         else
                 echo -e "\n\e[91;1mWrong input!\e[0m\n"
+		sleep 1 && clear && funct_webinfo
         fi      
 else
         echo -e "\e[91;1mWrong input\e[0m"
