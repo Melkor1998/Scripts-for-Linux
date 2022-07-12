@@ -734,60 +734,105 @@ fi
 funct_browse
 }
 
-####################### PING ########################################## Added in 13.apr.2022
+########## PING ######## Added in 13.apr.2022 # Edited in 12.jul.2022
 
 funct_ping(){
-list=$(echo -e "$sitens1 $(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print $2}' | sed -s "/$(grep 'reverse' /etc/named.conf | awk '{print $2}' | cut -d'.' -f2)/d")")
-addresses=$(echo $list | wc -w)
-
-cat >> cases.sh << finish
-sitens1=\$(cat /var/named/*.db | grep ns1 | sed -n "2p" | awk '{print \$2}')
-list=\$(echo -e "\$sitens1 \$(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print \$2}' | sed -s "/\$(grep 'reverse' /etc/named.conf | awk '{print \$2}' | cut -d'.' -f2)/d")")
-
-funct_ping(){
-echo choose:
-echo -e \$list | sed "s/ /\n/g" | cat -n
-echo -e "Press \e[91;1mq\e[0m to exit"
-
-read -s -n 1 choose
-
-case \$choose in
-finish
-
+sitens1=$(cat /var/named/*.db | grep ns1 | sed -n "2p" | cut -d" " -f2 | awk '{print $2}')
+list="$(echo -e "$sitens1 \n$(grep 'zone' /etc/named.conf | sed '1d' | sed '/\/etc\/named/d' | sed '/addr.arpa/d' | sed -s 's/"//g' | awk '{print $2}' | sed -s "/$(grep 'reverse' /etc/named.conf | awk '{print $2}' | cut -d'.' -f2)/d")")"
+amount=$(echo "$list" | wc -l)
 count=0
 
-while [ $count -lt $addresses ]
+while [ $count -lt $amount ]
 do
-	((count++))
-	echo -e '\t"'"$count"'") clear && ping -c 2 '"$(echo $list | cut -d" " -f$count)"' ;;' >> cases.sh
+        ((count++))
+        printf "$count) "
+        echo "$list" | sed -n "$count p"
+        slist+=$(printf "\n$count " && echo "$list" | sed -n "$count p")
 done
-	
-cat >> cases.sh << finish
-	"q") ./Dns_Tool_Web.sh ;;
-esac
 
-echo -e "\nPress \e[92;1mEnter\e[0m to return
-or \e[91;1mq\e[0m to exit"
+echo -e "\n[q] Go back"
+read -s -n1 choosen
 
-read -s -n 1
-
-if [ \${REPLY} = \$(Enter) ];
+if [[ $choosen -eq 'q' ]]; 
 then
-	clear && funct_ping
-elif [ \${REPLY} = q ];
+        slist=''
+        clear
+		funct_menu
+fi
+
+if [[ $(echo "$slist" | grep "^$choosen") ]]; 
 then
-	./Dns_Tool_Web.sh || find / -type f -name Dns_Tool_Web.sh -exec {} \; 2> /dev/null
+        clear
+        target="$(echo "$slist" | grep "^$choosen" | cut -d" " -f2)"
+        ping -c 2 $target
+        echo -e "\n[Enter] Go back"
+        slist=' '
+        read -s -n1 
+        if [[ $REPLY == "" ]]; 
+        then
+                clear
+                funct_ping
+        else
+                echo -e "\n\e[91;1mWrong input!\e[0m\n"
+        fi
+else
+        echo -e "\e[91;1mWrong input!\e[0m"
+        sleep 1
+        clear
+        funct_ping
 fi
 }
 
-funct_ping
-finish
-
-chmod +x cases.sh
-./cases.sh
-}
-
 #################################################################
+
+##################### Website Information ########################## Added in 12.Jul.2022
+funct_webinfo(){
+which fping || yum install fping -y || dnf install fping -y
+which curl || yum install curl -y || dnf install curl -y
+clear
+wcount=0
+webs=$(ls /var/www | sed '/cgi-bin\|html/d' | wc -l)
+
+while [ $wcount -lt $webs ]
+do
+        ((wcount++))
+        echo "$wcount"') '$(ls /var/www | sed '/cgi-bin\|html/d' | sed -n "$wcount p")
+        wlist+=$(printf "\n$wcount " && ls /var/www | sed '/cgi-bin\|html/d' | sed -n "$wcount p")
+done    
+
+echo -e "\n[q] Go back"
+read -s -n1 choosen
+
+if [[ $choosen -eq 'q' ]];
+then
+        wlist=''
+        clear
+        funct_menu
+fi      
+
+if [[ $(echo "$wlist" | grep "^$choosen") ]];
+then
+        clear
+        theone="$(echo "$wlist" | grep "^$choosen" | cut -d" " -f2)"
+        curl -s -w 'Testing Website Response Time for :%{url_effective}\n\nLookup Time:\t\t%{time_namelookup}\nConnect Time:\t\t%{time_connect}\nPre-transfer Time:\t%{time_pretransfer}\nStart-transfer Time:\t%{time_starttransfer}\n\nTotal Time:\t\t%{time_total}\n' -o /dev/null "www.$theone"; printf "\n";fping "www.$theone"
+        echo -e "\n[Enter] Go back"
+        wlist=''
+        read -s -n1
+        if [[ $REPLY == "" ]];
+        then
+                clear
+                funct_webinfo
+        else
+                echo -e "\n\e[91;1mWrong input!\e[0m\n"
+        fi      
+else
+        echo -e "\e[91;1mWrong input\e[0m"
+        sleep 1
+        clear 
+        funct_webinfo
+fi
+}
+###################################################################################################
 
 clear
 
@@ -880,8 +925,7 @@ read -s -n 1
 	elif [[ $REPLY == 0 ]];
 	then
 		clear
-		rm -rf cases.sh || find -type f -name cases.sh -exec rm -rf {} \; 2> /dev/null
-		pkill -9 Dns_Tool_Web.sh  && clear
+		exit
 	else
 		clear
 		funct_menu
