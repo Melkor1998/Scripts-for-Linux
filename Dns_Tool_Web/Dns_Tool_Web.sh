@@ -751,19 +751,19 @@ do
 done
 
 echo -e "\n[q] Go back"
-read -s -n1 choosen
+read -s -n1 choosenn
 
-if [[ $choosen -eq 'q' ]]; 
+if [[ $choosenn -eq 'q' ]]; 
 then
         slist=''
         clear
 		funct_menu
 fi
 
-if [[ $(echo "$slist" | grep "^$choosen") ]]; 
+if [[ $(echo "$slist" | grep "^$choosenn") ]]; 
 then
         clear
-        target="$(echo "$slist" | grep "^$choosen" | cut -d" " -f2)"
+        target="$(echo "$slist" | grep "^$choosenn" | cut -d" " -f2)"
         ping -c 2 $target
         echo -e "\n[Enter] Go back"
         slist=' '
