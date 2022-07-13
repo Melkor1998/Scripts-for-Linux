@@ -34,19 +34,19 @@ date=$(date +"%d%m%Y")
 
 ### ფუნქცია listen-on port-ის სექციისთვის
 funct_listen-on(){
-	echo -e "1. მისამართის ჩაწერა (listen-on port)
-2. წაშლა
+	echo -e "[1] Insert (listen-on port)
+[2] Remove
 
-8. უკან დაბრუნება
+[8] Go back
 
-\e[91m0. გამოსვლა\e[0m"
+\e[91m[0] Exit\e[0m"
 
 	read -s -n 1
 
 	if [[ $REPLY == 1 ]];
 	then
 		clear
-		printf "\nჩაწერე მისამართი: "
+		printf "\nInsert address: "
 
 		read listenon
 
@@ -59,7 +59,7 @@ funct_listen-on(){
 		then
 			funct_check
 			clear
-			echo -e "\e[91;1mმითითებული მისამართი listenon port ჩანაწერში უკვე არსებობს\e[0m"
+			echo -e "\e[91;1mAddress already exists in configuration for listenon port\e[0m"
 			funct_listen-on
 		fi
 	elif [[ $REPLY == 2 ]];
@@ -87,19 +87,19 @@ funct_listen-on(){
 
 ### ფუნქცია allow-query სექციისთვის
 funct_allow-query(){
-	echo -e "1. მისამართის ჩაწერა (allow-query)
-2. წაშლა
+	echo -e "[1] Insert address (allow-query)
+[2] Remove
 
-8. უკან დაბრუნება
+[8] Go back
 
-\e[91m0. გამოსვლა\e[0m"
+\e[91m[0] Exit\e[0m"
 
 	read -s -n 1
 
 	if [[ $REPLY == 1 ]];
 	then
 		clear
-		printf "\nჩაწერე მისამართი: "
+		printf "\nInsert address: "
 
 		read allowquery
 
@@ -112,7 +112,7 @@ funct_allow-query(){
 		then
 			funct_check
 		        clear
-	                echo -e "\e[91;1mმითითებული მისამართი allow-query ჩანაწერში უკვე არსებობს\e[0m"
+	                echo -e "\e[91;1mAddress already exists in configuration for allow-query\e[0m"
 	                funct_allow-query
 		fi
 	elif [[ $REPLY == 2 ]];
@@ -139,19 +139,19 @@ funct_allow-query(){
 
 ### ფუნქცია allow-transfer-ისთვის
 funct_allow-transfer(){
-	echo -e "1. მისამართის ჩაწერა (allow-transfer)
-2. წაშლა
+	echo -e "[1] Insert (allow-transfer)
+[2] Remove
 
-8. უკან დაბრუნება
+[8] Go back
 
-\e[91m0. გამოსვლა\e[0m"
+\e[91m[0] Exit\e[0m"
 
 	read -s -n 1
 
 	if [[ $REPLY == '1' ]]; 
 	then
 		clear
-    		printf "\nჩაწერე მისამართი: "
+    		printf "\nInsert address: "
 
     		read allowtransfer
 
@@ -167,7 +167,7 @@ funct_allow-transfer(){
 		then
 			funct_check
 			clear
-			echo -e "\e[91;1mმითითებული მისამართი allow-transfer ჩანაწერში უკვე არსებობს\e[0m"
+			echo -e "\e[91;1mAddress already exists in configuration for allow-transfer\e[0m"
 			funct_allow-transfer
 	   	# თუ allow transfer ჩანაწერი უკვე არსებობს და არ წერია ის რაც გვჭირდება, ჩაწეროს
 		elif [[ $(cat /etc/named.conf | grep 'allow-transfer' | grep -q $allowtransfer && echo 1 || echo 0) == 0 ]];
@@ -180,7 +180,7 @@ funct_allow-transfer(){
 		then
 			funct_check
 			clear
-			echo -e "\e[91;1mallow-transfer ჩანაწერი არ არსებობს\e[0m"
+			echo -e "\e[91;1mNo configuration found for Allow-Transfer\e[0m"
 			funct_allow-transfer
 		elif [[ $(cat /etc/named.conf | grep -q 'allow-transfer' && echo 1 || echo 0) == 1 ]];
 		then
@@ -208,12 +208,12 @@ funct_allow-transfer(){
 
 ### ფუნქცია მთავარი DNS-თვის, ns1-ის ჩანაწერი
 funct_ns1(){
-	echo -e "1. ns1-ის ჩანაწერის გაკეთება
-2. ns1-ის ჩანაწერის წაშლა
+	echo -e "[1] Insert ns1
+[2] Remove
 
-8. უკან დაბრუნება
+[8] Go back
 
-\e[91m0.გამოსვლა\e[0m"
+\e[91m[0] Exit\e[0m"
 
         read -s -n 1
 
@@ -223,7 +223,7 @@ funct_ns1(){
 	elif [[ $REPLY == 2 ]];
 	then
 		clear
-		printf "\nმაგალითი 'ns1.itvet05.ge'\nჩაწერე საიტის სახელი ns1-ისთვის: "
+		printf "\nExample 'ns1.itvet05.ge'\nInsert the name for ns1: "
 
 		read dsitens1
 
@@ -248,7 +248,7 @@ funct_ns1(){
 			funct_menu
 		else
 			clear
-			echo -e "\e[91;1mმითითებული ns1 არ არსებობს\e[0m"
+			echo -e "\e[91;1mThe name you provided already exists\e[0m"
 			funct_ns1
 		fi
 	elif [[ $REPLY == 8 ]];
@@ -267,7 +267,7 @@ funct_ns1(){
 	if [[ $(cat /var/named/*.db | grep -q ns1 && echo 1 || echo 0) == '0' ]]; 
 	then
 		clear
-		printf "\nმაგალითი 'ns1.itvet05.ge'\nჩაწერე საიტის სახელი ns1-ისთვის: "
+		printf "\nExample 'ns1.itvet05.ge'\nInsert the name for ns1: "
 
 		read sitens1
 
@@ -275,7 +275,7 @@ funct_ns1(){
 		if [[ $(cat /etc/named.conf | grep -q $sitens1 && echo 1 || echo 0) = 1 ]]; 
 		then
 			clear
-			echo -e "\e[91;1mმითითებული ns1 საიტი უკვე არსებობს კონფიგურაციაში!\e[0m"
+			echo -e "\e[91;1mConfiguration for that name already exists\e[0m"
 			funct_ns1
 		# შექმნას ns1 თავისი db ფაილებით
 		elif [[ $(cat /etc/named.conf | grep -q $sitens1 && echo 1 || echo 0) = 0 ]]; 
@@ -315,7 +315,7 @@ funct_ns1(){
 		fi
 	else
 		clear
-		echo -e "\e[91mns1 ჩანაწერი უკვე არსებობს\e[0m"
+		echo -e "\e[91mThe name you provided already has a db file\e[0m"
 		funct_menu
 	fi
 	systemctl restart named
@@ -325,12 +325,12 @@ funct_ns1(){
 
 ### საიტის სექცია
 funct_site(){
-	echo -e "1. Site ჩანაწერის გაკეთება
-2. Site ჩანაწერის წაშლა
+	echo -e "[1] Create master site
+[2] Remove
 
-8. უკან დაბრუნება
+[8] Go back
 
-\e[91m0.გამოსვლა\e[0m"
+\e[91m[0] Exit\e[0m"
 read -s -n 1
 	if [[ $REPLY == 1 ]];
 	then
@@ -338,12 +338,12 @@ read -s -n 1
 		if [[ $(cat /var/named/*.db | grep -q "ns1" && echo 1 || echo 0) == 0 ]];
 		then
 		        clear
-		        echo -e "\e[91;1mns1 არ არსებობს!\e[0m"
+		        echo -e "\e[91;1mns1 not found\e[0m"
 		        funct_site
 		fi
 
 		clear
-		printf "\nმაგალითი 'satesto123.ge'\nჩაწერე საიტის სახელი: "
+		printf "\nExample: 'satesto123.ge'\nInsert the name: "
 
 		read site
 
@@ -351,7 +351,7 @@ read -s -n 1
 		if [[ $(cat /etc/named.conf | grep -q $site && echo 1 || echo 0) = 1 ]]; 
 		then
 			clear
-	    		echo -e "\e[91;1mმითითებული საიტი უკვე არსებობს კონფიგურაციაში!\e[0m"
+	    		echo -e "\e[91;1mThe name you provided already exists as a master site\e[0m"
 			funct_site
 		# თუ არ არსებობს, შექმნას
 		elif [[ $(cat /etc/named.conf | grep -q $site && echo 1 || echo 0) = 0 ]]; 
@@ -377,7 +377,7 @@ read -s -n 1
 	elif [[ $REPLY == 2 ]];
 	then
 		clear
-		printf "\nმაგალითი 'satesto123.ge'\nჩაწერე საიტის სახელი: "
+		printf "\nExample 'satesto123.ge'\nInsert the name for deletion: "
 
 		read dsite
 
@@ -413,7 +413,7 @@ funct_x(){
 		yum install bind bind-utils -y
 		bindd=1
 		y=''
-		x='\e[91;1m9. Remove bind\e[0m'
+		x='\e[91;1m[9] Remove bind\e[0m'
 		clear
 	        echo -en "\e[96;1mbind and bind-utils has been installed\e[0m"
         	funct_menu 2> /dev/null
@@ -422,16 +422,16 @@ funct_x(){
 		cd
 		rm -rvf /etc/named.conf /var/named/* && yum remove bind* -y
 		bindd=0
-		x='\e[96m9. Install bind\e[0m'
+		x='\e[96m[9] Install bind\e[0m'
 		clear
-		echo -en "\e[91;1;5mbind has been deleted\e[0m"
+		echo -en "\e[91;1;5mBind has been deleted\e[0m"
         	funct_menu 2> /dev/null
 	fi
 }
 
 ### Slave ჩანაწერის სექცია
 funct_slave(){
-	echo -e "\n1. Slave ჩანაწერის გაკეთება\n2. Slave ჩანაწერის წაშლა\n\n3. უკან დაბრუნება\n\n\e[91;1m0. გამოსვლა\e[0m"
+	echo -e "\n[1] Create slave site\n[2] Remove\n\n[8] Go back\n\n\e[91;1m[0] Exit\e[0m"
 
 	read -s -n 1
 
@@ -441,40 +441,40 @@ funct_slave(){
 		masterip="?"
 		slavesite="?"
 		funct_slave2(){
-		echo -e "\n1. მასტერის (ns1-ის) IP მისამართი\t-> \e[96;1m$masterip\e[0m\n2. Slave საიტის სახელი\t\t\t-> \e[96;1m$slavesite\e[0m\n\n3. უკან დაბრუნება\n\n4. შექმნა"
+		echo -e "\n[1] IP for master (ns1-ის)\t\t-> \e[96;1m$masterip\e[0m\n[2] Name for slave\t\t\t-> \e[96;1m$slavesite\e[0m\n\n[8] Go back\n\n[4] Create"
 
 		read -s -n 1
 
 		if [[ $REPLY == 1 ]];
 		then
 			clear
-			printf "ჩაწერე IP მისამართი: "
+			printf "Insert IP address: "
 			read masterip
 			clear
 			funct_slave2
 		elif [[ $REPLY == 2 ]];
 		then
 			clear
-			printf "ჩაწერე Slave სახელი: "
+			printf "Insert slave name: "
 			read slavesite
 			midnameslavesite=$(echo $slavesite | cut -d"." -f1)
 			if [[ $(cat /etc/named.conf | grep -q "$slavesite" && echo 1) == 1 ]];
 			then
 				clear
-				echo -e "\e[91;1mმითითებული საიტი დაფიქსირდა ჩანაწერში\e[0m"
+				echo -e "\e[91;1mThe name you provided already exists as a slave site\e[0m"
 				slavesite="\e[91;1m?\e[0m"
 				funct_slave2
 			fi
 			if [[ $(ls /var/named/$midnameslavesite.db &> /dev/null && echo 1) == 1 ]];
 			then
 				clear
-				echo -e "\e[91;1mმითითებული საიტის სახელით დაფიქსირებულია ფაილი ფოლდერში /var/named\e[0m"
+				echo -e "\e[91;1mThe name you provided already has a db file in /var/named\e[0m"
 				slavesite="\e[91;1m?\e[0m"
 				funct_slave2
 			fi
 			clear
 			funct_slave2
-		elif [[ $REPLY == 3 ]];
+		elif [[ $REPLY == 8 ]];
 		then
 			clear
 			masterip="?"
@@ -486,13 +486,13 @@ funct_slave(){
 			if [[ $masterip == "?" ]];
 			then
 				clear
-				echo -e "\e[91;1mშეავსეთ ორივე მოცემულობა\e[0m"
+				echo -e "\e[91;1mInsert the information\e[0m"
 				funct_slave2
 			fi
 			if [[ $slavesite == "?" ]];
 			then
                                 clear
-                                echo -e "\e[91;1mშეავსეთ ორივე მოცემულობა\e[0m"
+                                echo -e "\e[91;1mInsert the information\e[0m"
                                 funct_slave2
 			fi
 			
@@ -513,7 +513,7 @@ funct_slave(){
 	elif [[ $REPLY == 2 ]];
 	then
 		funct_slavedel(){
-		printf "\nჩაწერე Slave სახელი: "
+		printf "\nInsert the name for deletion: "
 
 		read dslavesite
 
@@ -528,14 +528,14 @@ funct_slave(){
 		elif [[ $(sed -n "/$dslavesite/ {n;p}" /etc/named.conf | awk '{print $2}' | sed 's/.$//') != 'slave' ]]
 		then
 			clear
-			echo -e "\e[91;1mეგეთი Slave საიტი არ არსებობს\e[0m"
+			echo -e "\e[91;1mThe name you provided does not exist as a slave site\e[0m"
 			funct_slave
 		else
 			funct_slavedel
 		fi
 		}
 		funct_slavedel
-	elif [[ $REPLY == 3 ]];
+	elif [[ $REPLY == 8 ]];
 	then
 		clear
 		funct_check
@@ -553,7 +553,7 @@ funct_slave(){
 ### WEB ##############################################################
 funct_web(){
 funct_web2(){
-	printf "\n1. Web საიტის შექმნა\n2. Web საიტის წაშლა\n\n3. უკან დაბრუნება"
+	printf "\n[1] Create website\n[2] Remove website\n\n[3] Go back"
 
 	read -s -n 1
 
@@ -566,14 +566,14 @@ funct_web2(){
 	elif [[ $REPLY == 2 ]];
 	then
 		funct_choosedwebname(){
-		printf "\nჩაწერე საიტის სახელი (www-ს გარეშე): "
+		printf "\nInsert the name for deletion: (Without www): "
 
 		read dwebsite
 
 		if [[ $(ls /var/www/ | grep -q "$dwebsite" && echo 1 || echo 0) == 0 ]];
 	        then
 	                clear
-	                printf "\e[31;1mეგეთი საიტი არ არსებობს\e[0m"
+	                printf "\e[31;1mThe name you provided does not exists as a website\e[0m"
 	                funct_choosedwebname
 		fi
 
@@ -587,14 +587,14 @@ funct_web2(){
 	elif [[ $REPLY == 1 ]];
 	then
 		funct_choosewebname(){
-		printf "\nჩაწერე საიტის სახელი (www-ს გარეშე): "
+		printf "\nInsert the name (Without www): "
 
 		read website
 
 		if [[ $(ls /var/www/ | grep -q "$website" && echo 1 || echo 0) == 1 ]];
 		then
 			clear
-			printf "\e[31;1mსაიტის ჩანაწერი უკვე არსებობს\e[0m"
+			printf "\e[31;1mThe name you provided for a website already exists\e[0m"
 			funct_choosewebname
 		fi
 
@@ -603,14 +603,14 @@ funct_web2(){
 		if [[ $(ls /var/named/$midwebsite.db &> /dev/null || echo 0) == '0' ]];
 		then
 			clear
-			printf "\e[31;1mსაიტისთვის ვერ მოიძებნა db ფაილი\e[0m"
+			printf "\e[31;1mSite doesn't has a db file\e[0m"
 			funct_choosewebname
 		fi
 
 		if [[ $(cat /etc/named.conf | grep -q "$website" || echo 0) == 0 ]];
 		then
 			clear
-			printf "\e[31;1mსაიტისთვის ვერ მოიძებნა ზონის ჩანაწერი\e[0m"
+			printf "\e[31;1mName not found in the configuration\e[0m"
 			funct_choosewebname
 		fi
 		}
@@ -638,10 +638,10 @@ mkdir -p /var/www/$website/log
 chmod -R 755 /var/www
 
 funct_choose(){
-	echo -e "\e[1mაირჩიე საიტის ვიზუალი\e[0m
+	echo -e "\e[1mChoose the style for website\e[0m
 
-	1. საიტის სატესტო ვერსია მარტივი წარწერით
-	2. სასურველი შიგთავსის გამოყენება საიტისთვის
+	[1] Testing one with simple writting inside
+	[2] Insert custom files
 "
 	read -s -n 1 choose
 
@@ -658,12 +658,12 @@ funct_choose(){
 	elif [[ $choose == 2 ]];
 	then
 		clear
-		printf "ჩაწერე ფოლდერის მისამართი სადაც საიტის შიგთავსი იმყოფება: "
+		printf "Insert the destination for a folder with custom files inside: "
 		read template
 		if [[ $(ls $template &> /dev/null || echo 0) == '0' ]];
 		then
 			clear
-			echo -e "\e[31;1mფოლდერი ვერ მოიძებნა!\e[0m"
+			echo -e "\e[31;1mFolder not found\e[0m"
 			funct_choose
 		elif [[ $(ls $template &> /dev/null && echo 1) == '1' ]];
 		then
@@ -703,7 +703,7 @@ systemctl restart httpd
 
 funct_browse(){
 clear
-echo -e "1. lynx-ით ნახვა\n2. firefox-ით ნახვა\n3. მთავარ სიაში დაბრუნება"
+echo -e "[1] Check in lynx\n[2] Check in firefox\n[3] Go back to main menu"
 read -s -n 1
 
 if [[ $REPLY == 1 ]];
@@ -745,7 +745,7 @@ count=0
 while [ $count -lt $amount ]
 do
         ((count++))
-        printf "$count) "
+        printf '['"$count"'] '
         echo "$list" | sed -n "$count p"
         slist+=$(printf "\n$count " && echo "$list" | sed -n "$count p")
 done
@@ -797,7 +797,7 @@ webs=$(ls /var/www | sed '/cgi-bin\|html/d' | wc -l)
 while [ $wcount -lt $webs ]
 do
         ((wcount++))
-        echo "$wcount"') '$(ls /var/www | sed '/cgi-bin\|html/d' | sed -n "$wcount p")
+        echo '['"$wcount"'] '$(ls /var/www | sed '/cgi-bin\|html/d' | sed -n "$wcount p")
         wlist+=$(printf "\n$wcount " && ls /var/www | sed '/cgi-bin\|html/d' | sed -n "$wcount p")
 done    
 
@@ -840,10 +840,10 @@ clear
 
 if [[ $bindd == 0 ]]
 then
-	x='\e[92m9. Install bind\e[0m'
+	x='\e[92;1m[9] Install bind\e[0m'
 elif [[ $bindd == 1 ]];
 then
-	x='\e[91;1m9. Remove bind\e[0m'
+	x='\e[91;1m[9] Remove bind\e[0m'
 fi
 
 ### მთავარი სიის ფუნქცია სადაც გვექნება არჩევანის უფლება და სია ჩვენი მონაცემების
@@ -851,14 +851,14 @@ funct_menu(){
 funct_check
 printf "
 $y
-აირჩიე
+Choose
 
-1. listen-on		6. slave site
-2. allow-query		7. web
-3. allow-transfer	8. ping addresses
-4. ns1			$x
-5. master site		-. website information
-\e[91m0. exit\e[0m
+[1] listen-on		[6] slave site
+[2] allow-query		[7] web
+[3] allow-transfer	[8] ping addresses
+[4] ns1			$x
+[5] master site		[-]. website information
+\e[91m[0] exit\e[0m
 
 ┌───────────────────────────────────────────────────────
 │\e[1mInfo:\e[0m
