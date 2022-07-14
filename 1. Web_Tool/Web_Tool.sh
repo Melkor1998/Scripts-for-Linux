@@ -16,12 +16,8 @@ fi
 clear
 
 #FIREWALL
-sudo enable firewalld &> /dev/null
-sudo start firewalld &> /dev/null
-sudo firewall-cmd --zone=public -permanent --add-service=dns &> /dev/null
-sudo firewall-cmd --zone=public --permanent --add-service=rpc-bind &> /dev/null
-sudo firewall-cmd --permanent --add-port=53/tcp --zone=public &> /dev/null
-
+sudo enable firewalld &> /dev/null; sudo start firewalld &> /dev/null; sudo firewall-cmd --zone=public -permanent --add-service=dns &> /dev/null
+sudo firewall-cmd --zone=public --permanent --add-service=rpc-bind &> /dev/null; sudo firewall-cmd --permanent --add-port=53/tcp --zone=public &> /dev/null
 ip=$(ifconfig | sed -n "2p" | cut -d" " -f10)
 a=$(cat /etc/named.conf | wc -l)
 b=$[ $a - 4 ]
