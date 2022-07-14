@@ -513,6 +513,7 @@ funct_slave(){
 	elif [[ $REPLY == 2 ]];
 	then
 		funct_slavedel(){
+		clear
 		printf "\nInsert the name for deletion: "
 
 		read dslavesite
