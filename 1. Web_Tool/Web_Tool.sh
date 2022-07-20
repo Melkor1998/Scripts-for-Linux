@@ -6,7 +6,7 @@
 # მინიმალურ ვერსიაში ifconfig ბრძანება არაა ჩაშენებული, ქვემოთა ბრძანებების ხაზი უზრუნველყოფს რო ბრძანება ifconfig ხელმისაწვდომი იყოს
 ifconfig &> /dev/null || yum install net-tools -y &> /dev/null
 
-yum list installed | grep '^bind\|^bind-utils*' &> /dev/null
+yum list installed | cut -d'.' -f1 | grep "^bind$" &> /dev/null
 if [[ $? -ne 0 ]]; then
 	bindd=0; y='\e[91;5;1mBind not detected!\e[0m'
 else
