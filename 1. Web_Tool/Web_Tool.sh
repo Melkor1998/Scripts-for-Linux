@@ -220,8 +220,18 @@ funct_x(){
 		yum install bind bind-utils -y;	bindd=1; y=''; x='\e[91;1m[9] Remove bind\e[0m'; clear
 		echo -en "\e[96;1mbind and bind-utils has been installed\e[0m"; funct_menu 2> /dev/null
 	elif [[ $bindd == 1 ]]; then
-		cd; rm -rvf /etc/named.conf /var/named/* && yum remove bind* -y; bindd=0; x='\e[96m[9] Install bind\e[0m'; clear
-		echo -en "\e[91;1;5mBind has been deleted\e[0m"; funct_menu 2> /dev/null
+		funct_decide(){
+			clear; echo -e "\e[31;1mAre you sure you want to remove bind? \e[0m\n\n[1] Yes\n\n[0] No\n"; read -s -n1 decide
+			if [[ $decide == 1 ]]; then
+				cd; rm -rvf /etc/named.conf /var/named/* && yum remove bind* -y; bindd=0; x='\e[96m[9] Install bind\e[0m'; clear
+				echo -en "\e[91;1;5mBind has been deleted\e[0m"; funct_menu 2> /dev/null
+			elif [[ $decide == 0 ]]; then
+				clear; funct_menu
+			else
+				clear; funct_decide
+			fi
+		}
+		funct_decide
 	fi
 }
 
