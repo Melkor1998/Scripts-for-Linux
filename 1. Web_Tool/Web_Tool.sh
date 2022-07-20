@@ -369,7 +369,14 @@ funct_browse(){
 	if [[ $REPLY == 1 ]]; then
 		clear; which lynx &> /dev/null || yum install lynx -y; clear; lynx $website; clear; funct_browse
 	elif [[ $REPLY == 2 ]]; then
-		clear; which firefox &> /dev/null || yum install firefox -y; clear; sudo -H gnome-terminal -e "firefox $website"; clear; funct_browse
+		gui=$(echo $GDMSESSION)
+		if [[ $gui == 'xfce' ]]; then
+			gui+='4'
+		fi
+		if [[ $(echo $GDMSESSION | grep -q 'kde' && echo 1) == 1 ]]; then
+			clear; which firefox &> /dev/null || yum install firefox -y; clear; sudo -H xterm -e "firefox $website"; clear; funct_browse
+		fi
+		clear; which firefox &> /dev/null || yum install firefox -y; clear; sudo -H $gui-terminal -e "firefox $website"; clear; funct_browse
 	elif [[ $REPLY == 3 ]]; then
 		clear; funct_check; funct_menu
 	else
@@ -426,7 +433,7 @@ funct_webinfo(){
 
 	if [[ $(echo "$wlist" | grep "^$choosen") ]]; then
 	    clear; theone="$(echo "$wlist" | grep "^$choosen" | cut -d" " -f2)"
-	    curl -s -w 'Testing Website Response Time for :%{url_effective}\n\nLookup Time:\t\t%{time_namelookup}\nConnect Time:\t\t%{time_connect}\nPre-transfer Time:\t%{time_pretransfer}\nStart-transfer Time:\t%{time_starttransfer}\n\nTotal Time:\t\t%{time_total}\n' -o /dev/null "www.$theone"; printf "\n";fping "www.$theone"
+	    curl -s -w 'Testing Website Response Time for :%{url_effective}\n\nLookup Time:\t\t%{time_namelookup}\nConnect Time:\t\t%{time_connect}\nPre-transfer Time:\t%{time_pretransfer}\nStart-transfer Time:\t%{time_starttransfer}\n\nTotal Time:\t\t%{time_total}\n' -o /dev/null "www.$theone"; printf "\n"; fping "www.$theone"
 	    echo -e "\n[Enter] Go back"; wlist=''; read -s -n1
 	    if [[ $REPLY == "" ]]; then
 	    	clear; funct_webinfo
