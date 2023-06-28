@@ -503,32 +503,23 @@ Choose
 │\e[1mWeb:\e[0m$(ls /var/www | sed '/cgi-bin\|html/d' | sed 's/^/\t\t │/' | sed 's/^/│/' | sed '1s/│//' | sed '1s/\t//' | sed '1s/^/\t/')
 └────────────────┴──────────────────────────────────────
 "
-	read -s -n 1
-		if [[ $REPLY == 1 ]]; then
-			clear; funct_listen-on
-		elif [[ $REPLY == 2 ]];	then
-			clear; funct_allow-query
-		elif [[ $REPLY == 3 ]];	then
-			clear; funct_allow-transfer
-		elif [[ $REPLY == 4 ]];	then
-			clear; funct_ns1
-		elif [[ $REPLY == 5 ]];	then
-			clear; funct_site
-		elif [[ $REPLY == 6 ]];	then
-			clear; funct_slave
-		elif [[ $REPLY == 7 ]];	then
-			clear; funct_web
-		elif [[ $REPLY == 8 ]];	then
-			clear; funct_ping
-	    elif [[ $REPLY == 9 ]]; then
-			clear; funct_x
-		elif [[ $REPLY == - ]];	then
-			clear; funct_webinfo
-		elif [[ $REPLY == 0 ]];	then
-			clear; exit
-		else
-			clear; funct_menu
-		fi
+while true; do
+        read -s -n 1 archevani; clear
+        case $archevani in
+                1) funct_listen-on;;
+                2) funct_allow-query;;
+                3) funct_allow-transfer;;
+                4) funct_ns1;;
+                5) funct_site;;
+                6) funct_slave;;
+                7) funct_web;;
+                8) funct_ping;;
+                9) funct_x;;
+                -) funct_webinfo;;
+                0) exit;;
+                *) funct_menu;;
+        esac
+done
 }
 
 # ფუნქცია რომელიც უზრუნველყოფს ინფორმაციას ცვლადებისთვის მთავარ სიაში
